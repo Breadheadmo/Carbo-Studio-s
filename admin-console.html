@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Console - Carbo Studio's</title>
+    <link rel="stylesheet" href="css/admin-console.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <div class="logo-container">
+            <img src="images/logo.png" alt="Carbo Studio's Logo" class="logo" />
+          </div>
+          <nav>
+            <ul>
+              <li><a href="#products">Products</a></li>
+              <li><a href="#orders">Orders</a></li>
+              <li><a href="#customers">Customers</a></li>
+              <li><a href="#analytics">Analytics</a></li>
+              <li><a href="#promotions">Promotions</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <main id="main-content">
+        <section id="products" class="active">
+          <h2>Product Management</h2>
+          <button id="add-product-btn">Add New Product</button>
+          <button id="import-products-btn">Import Products</button>
+          <button id="export-products-btn">Export Products</button>
+          <table id="products-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>SKU</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-list">
+              <!-- Product rows will be inserted here dynamically -->
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="product-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modal-title">Add New Product</h2>
+        <form id="product-form">
+          <input type="hidden" id="product-id" />
+          <div class="form-group">
+            <label for="product-name">Name</label>
+            <input type="text" id="product-name" required />
+          </div>
+          <div class="form-group">
+            <label for="product-sku">SKU</label>
+            <input type="text" id="product-sku" required />
+          </div>
+          <div class="form-group">
+            <label for="product-price">Price</label>
+            <input type="number" id="product-price" step="0.01" required />
+          </div>
+          <div class="form-group">
+            <label for="product-category">Category</label>
+            <select id="product-category" required>
+              <option value="">Select a category</option>
+              <option value="women">Women</option>
+              <option value="men">Men</option>
+              <option value="accessories">Accessories</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="product-stock">Stock</label>
+            <input type="number" id="product-stock" required />
+          </div>
+          <div class="form-group">
+            <label for="product-image">Image</label>
+            <input type="file" id="product-image" accept="image/*" />
+          </div>
+          <div class="form-group">
+            <label for="product-description">Description</label>
+            <textarea id="product-description" rows="4"></textarea>
+          </div>
+          <button type="submit">Save Product</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/admin-console.js"></script>
+  </body>
+</html>
