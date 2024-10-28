@@ -1,0 +1,247 @@
+/* Vendor Styles */
+@import url('../vendor/bootstrap/css/bootstrap.min.css');
+@import url('../fonts/font-awesome-4.7.0/css/font-awesome.min.css');
+@import url('../fonts/iconic/css/material-design-iconic-font.min.css');
+@import url('../fonts/linearicons-v1.0.0/icon-font.min.css');
+@import url('../vendor/animate/animate.css');
+@import url('../vendor/css-hamburgers/hamburgers.min.css');
+@import url('../vendor/animsition/css/animsition.min.css');
+@import url('../vendor/select2/select2.min.css');
+@import url('../vendor/daterangepicker/daterangepicker.css');
+@import url('../vendor/slick/slick.css');
+@import url('../vendor/MagnificPopup/magnific-popup.css');
+@import url('../vendor/perfect-scrollbar/perfect-scrollbar.css');
+
+/* Custom Styles */
+@import url('util.css');
+@import url('main.css');
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+}
+
+.icons {
+    display: flex;
+    gap: 15px;
+}
+
+/* Product container styles */
+.product-container {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.product-images {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.product-images img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Product info styles */
+.product-info {
+    flex: 1;
+}
+
+.product-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.product-subtitle {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.product-price {
+    margin-bottom: 20px;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.discount {
+    color: #e74c3c;
+    margin: 0 10px;
+}
+
+.current-price {
+    font-weight: bold;
+}
+
+.size-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.size-guide {
+    color: #333;
+    text-decoration: underline;
+}
+
+#size-select {
+    padding: 10px;
+    width: 150px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.add-to-bag {
+    flex: 1;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.wishlist {
+    background-color: #fff;
+    border: 1px solid #000;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.delivery-info {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.details {
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.details summary {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .product-container {
+        flex-direction: column;
+    }
+
+    nav {
+        display: none;
+    }
+}
+
+.recommendations, .featured {
+    margin-top: 40px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.shop-now {
+    background-color: #fff;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.product-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.product-card {
+    flex: 0 0 auto;
+    width: 200px;
+    position: relative;
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.product-card h3 {
+    font-size: 14px;
+    margin: 0;
+}
+
+.product-card p {
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+.product-card .price {
+    font-weight: bold;
+}
+
+.product-card .original-price {
+    text-decoration: line-through;
+    color: #888;
+    margin-right: 5px;
+}
+
+.product-card .discount {
+    color: #888;
+}
+
+.wishlist-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+}
