@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const productForm = document.getElementById('product-form');
     const productsList = document.getElementById('products-list');
     const modalTitle = document.getElementById('modal-title');
+    const API_URL = 'http://localhost:3333/api/products'; // base URL for products API
 
     let products = [];
 
@@ -30,62 +31,90 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handle form submission
-    productForm.onsubmit = function(e) {
+    productForm.onsubmit = async function(e) {
         e.preventDefault();
         const productId = document.getElementById('product-id').value;
-        const productName = document.getElementById('product-name').value;
-        const productSKU = document.getElementById('product-sku').value;
-        const productPrice = document.getElementById('product-price').value;
-        const productCategory = document.getElementById('product-category').value;
-        const productStock = document.getElementById('product-stock').value;
-        const productImage = document.getElementById('product-image').files[0];
-        const productDescription = document.getElementById('product-description').value;
+        const productData = {
+            name: document.getElementById('product-name').value.trim(),
+            sku: document.getElementById('product-sku').value.trim(),
+            price: parseFloat(document.getElementById('product-price').value),
+            category: document.getElementById('product-category').value.trim(),
+            stock: parseInt(document.getElementById('product-stock').value),
+            description: document.getElementById('product-description').value.trim(),
+            image_url: document.getElementById('product-image').value.trim() || null
+        };
 
         if (productId) {
-            // Update existing product
-            updateProduct(productId, productName, productSKU, productPrice, productCategory, productStock, productImage, productDescription);
+            await updateProduct(productId, productData);
         } else {
-            // Add new product
-            addProduct(productName, productSKU, productPrice, productCategory, productStock, productImage, productDescription);
+            await addProduct(productData);
         }
 
         productModal.style.display = 'none';
-        renderProducts();
+        fetchProducts();
     }
 
-    function addProduct(name, sku, price, category, stock, image, description) {
-        const newProduct = {
-            id: Date.now(),
-            name,
-            sku,
-            price,
-            category,
-            stock,
-            image: image ? URL.createObjectURL(image) : 'placeholder-image-url.jpg',
-            description
-        };
-        products.push(newProduct);
-    }
-
-    function updateProduct(id, name, sku, price, category, stock, image, description) {
-        const index = products.findIndex(p => p.id == id);
-        if (index !== -1) {
-            products[index] = {
-                ...products[index],
-                name,
-                sku,
-                price,
-                category,
-                stock,
-                image: image ? URL.createObjectURL(image) : products[index].image,
-                description
-            };
+    async function addProduct(data) {
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error adding product');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            alert(error.message); // Show error message to user
+            throw error;
         }
     }
 
-    function deleteProduct(id) {
-        products = products.filter(p => p.id != id);
-        renderProducts();
+    async function updateProduct(id, data) {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error updating product');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            alert(error.message); // Show error message to user
+            throw error;
+        }
+    }
+
+    async function deleteProduct(id) {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            if (!response.ok) throw new Error('Error deleting product');
+            fetchProducts();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    async function fetchProducts() {
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) throw new Error('Error fetching products');
+            products = await response.json();
+            renderProducts();
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     function renderProducts() {
@@ -93,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         products.forEach(product => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td><img src="${product.image}" alt="${product.name}" class="product-image"></td>
+                <td><img src="${product.image_url || 'https://via.placeholder.com/50'}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/50'"></td>
                 <td>${product.name}</td>
                 <td>${product.sku}</td>
                 <td>$${product.price}</td>
@@ -107,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
             productsList.appendChild(row);
         });
 
-        // Add event listeners for edit and delete buttons
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.onclick = function() {
                 const productId = this.getAttribute('data-id');
@@ -136,20 +164,18 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('product-category').value = product.category;
             document.getElementById('product-stock').value = product.stock;
             document.getElementById('product-description').value = product.description;
+            document.getElementById('product-image').value = product.image_url || '';
             productModal.style.display = 'block';
         }
     }
 
-    // Import Products (placeholder function)
     importProductsBtn.onclick = function() {
         alert('Import functionality to be implemented');
     }
 
-    // Export Products (placeholder function)
     exportProductsBtn.onclick = function() {
         alert('Export functionality to be implemented');
     }
 
-    // Initial render
-    renderProducts();
+    fetchProducts();
 });
