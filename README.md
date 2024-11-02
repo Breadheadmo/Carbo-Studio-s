@@ -20,6 +20,9 @@ bash
 Copy code
 git clone [https://github.com/yourusername/CarboStudio.git](https://github.com/Breadheadmo/Carbo-Studio-s)
 cd CarboStudio
+
+Clone the Repository https://github.com/Stake99/Carbo_studios-api.git
+
 2. Install Dependencies
 Install the necessary Node packages:
 
