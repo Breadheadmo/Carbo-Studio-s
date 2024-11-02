@@ -11,7 +11,7 @@ Before setting up the application, ensure you have the following installed:
 Node.js (version 14 or higher)
 NPM (Node Package Manager, comes with Node.js)
 MySQL (for database setup)
-Redis (optional, if caching is used)
+
 Getting Started
 Follow these steps to set up and run the application on your local environment.
 
