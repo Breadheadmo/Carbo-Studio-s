@@ -18,7 +18,7 @@ Follow these steps to set up and run the application on your local environment.
 1. Clone the Repository
 bash
 Copy code
-git clone https://github.com/yourusername/CarboStudio.git
+git clone [https://github.com/yourusername/CarboStudio.git](https://github.com/Breadheadmo/Carbo-Studio-s)
 cd CarboStudio
 2. Install Dependencies
 Install the necessary Node packages:
