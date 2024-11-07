@@ -1,4 +1,3 @@
-
 (function ($) {
     "use strict";
 
@@ -277,6 +276,13 @@
         $('.js-modal1').removeClass('show-modal1');
     });
 
-
+    /*==================================================================
+    [ Select2 ]*/
+    $(".js-select2").each(function () {
+        $(this).select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $(this).next(".dropDownSelect2"),
+        });
+    });
 
 })(jQuery);
