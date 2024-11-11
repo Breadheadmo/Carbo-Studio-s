@@ -11,6 +11,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let products = [];
 
+    const imageInput = document.getElementById('product-image');
+    const imagePreview = document.getElementById('image-preview');
+
+    // Handle image preview
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
     // Open modal when Add New Product button is clicked
     addProductBtn.onclick = function() {
         modalTitle.textContent = 'Add New Product';
@@ -34,25 +50,45 @@ document.addEventListener('DOMContentLoaded', function() {
     productForm.onsubmit = async function(e) {
         e.preventDefault();
         const productId = document.getElementById('product-id').value;
-        const productData = {
-            name: document.getElementById('product-name').value.trim(),
-            sku: document.getElementById('product-sku').value.trim(),
-            price: parseFloat(document.getElementById('product-price').value),
-            category: document.getElementById('product-category').value.trim(),
-            stock: parseInt(document.getElementById('product-stock').value),
-            description: document.getElementById('product-description').value.trim(),
-            image_url: document.getElementById('product-image').value.trim() || null
-        };
+        const formData = new FormData();
 
-        if (productId) {
-            await updateProduct(productId, productData);
-        } else {
-            await addProduct(productData);
+        formData.append('name', document.getElementById('product-name').value.trim());
+        formData.append('sku', document.getElementById('product-sku').value.trim());
+        formData.append('price', document.getElementById('product-price').value);
+        formData.append('category', document.getElementById('product-category').value);
+        formData.append('stock', document.getElementById('product-stock').value);
+        formData.append('description', document.getElementById('product-description').value.trim());
+
+        const imageFile = document.getElementById('product-image').files[0];
+        if (imageFile) {
+            formData.append('image', imageFile);
         }
 
-        productModal.style.display = 'none';
-        fetchProducts();
-    }
+        try {
+            let response;
+            if (productId) {
+                response = await fetch(`${API_URL}/${productId}`, {
+                    method: 'PUT',
+                    body: formData
+                });
+            } else {
+                response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+            }
+
+            if (!response.ok) {
+                throw new Error('Error saving product');
+            }
+
+            productModal.style.display = 'none';
+            fetchProducts();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to save product');
+        }
+    };
 
     async function addProduct(data) {
         try {
@@ -164,7 +200,15 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('product-category').value = product.category;
             document.getElementById('product-stock').value = product.stock;
             document.getElementById('product-description').value = product.description;
-            document.getElementById('product-image').value = product.image_url || '';
+            
+            // Show existing image preview
+            if (product.image_url) {
+                imagePreview.src = product.image_url;
+                imagePreview.style.display = 'block';
+            } else {
+                imagePreview.style.display = 'none';
+            }
+            
             productModal.style.display = 'block';
         }
     }
